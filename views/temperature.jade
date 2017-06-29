@@ -1,0 +1,15 @@
+extends layout
+block headerContent
+    meta(http-equiv='Content-Type', content='text/html; charset=UTF-8')
+    title Temperatura
+    script(type='text/javascript', src='https://www.gstatic.com/charts/loader.js')
+    link(rel='stylesheet', href='/stylesheets/temperature/style.css')
+    link(href='./temperatura/css/bootstrap-responsive.css', rel='stylesheet')
+    script(type='text/javascript', src="/javascripts/temperature/temperature.js")
+
+block bodyContent
+    .container
+        .page-header
+            h1 Температура
+            #line_top_x
+            #push

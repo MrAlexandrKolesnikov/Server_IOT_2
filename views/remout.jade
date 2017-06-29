@@ -1,0 +1,50 @@
+//
+   Created by sasha on 27/06/2017.
+//
+   Created by sasha on 26/06/2017.
+extends layout
+
+block headerContent
+    title Remote control
+
+    link(href='stylesheets/remoute/bootstrap.css', rel='stylesheet')
+
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js')
+    script(src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js')
+    script(type='text/javascript', src="/javascripts/remoute/remout.js")
+    script(type='text/javascript', src="/javascripts/remoute/bootstrap.js")
+    link(href='stylesheets/remoute/cover.css', rel='stylesheet')
+    script(type='text/javascript').
+        $(document).ready(function()
+        {
+            $("#option1").click(function()
+            {
+                console.log("clike ledOff");
+                sendStatus(0);
+                $(".site-wrapper").animate({ backgroundColor: "#333333"}, 1000);
+                $("body").animate({ color: "#FFFFFF"}, 1000);
+            });
+            $("#option2").click(function()
+            {
+                console.log("clike ledOn");
+                sendStatus(1);
+                $(".site-wrapper").animate({ backgroundColor: "#FFFFFF"}, 1000);
+                $("body").animate({ color: "#333333"}, 1000);
+            });
+        });
+
+block bodyContent
+    .inner.cover
+        h1.cover-heading Страница управления электропитанием
+        p.lead Просто жмите кнопочки и наслаждайтесь =)
+        p.lead
+            .btn-group(data-toggle='buttons')
+                label.btn.btn-outline-danger
+                    input#option1(type='radio', name='options', checked='')
+                    |  Led Off
+                label.btn.btn-outline-danger
+                    input#option2(type='radio', name='options')
+                    |  Led On
+        p.lead
+            | Id устройства:
+            select#deviceId.btn-outline-danger

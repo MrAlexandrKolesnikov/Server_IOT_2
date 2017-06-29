@@ -1,0 +1,35 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/panel/bootstrap.css')
+    link(rel='stylesheet', href='/stylesheets/panel/bootstrap-responsive_index.css')
+    block headerContent
+  body
+    .navbar.navbar-inverse.navbar-fixed-top
+      .navbar-inner
+        .container
+          button.btn.btn-navbar(type='button', data-toggle='collapse', data-target='.nav-collapse')
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.brand(href='#') Test server
+          .nav-collapse.collapse
+            ul.nav
+              li.active
+                a(href='/') Home
+              li
+                a(href='#') About
+              li
+                a(href='http://dev.truxan.by/ru/') Contact
+            if user
+              p.navbar-form.pull-right= user.name
+              form.navbar-form.pull-right(method='post', action='/users/logout')
+                input.btn(type='submit',name = 'logout')
+            else
+              form.navbar-form.pull-right(method='post', action='/users/login')
+                input(type='text', name='email')
+                input(type='password', name='password')
+                input.btn(type='submit')
+    .content
+      block bodyContent

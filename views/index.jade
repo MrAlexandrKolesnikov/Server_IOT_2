@@ -1,0 +1,35 @@
+extends layout
+
+block bodyContent
+  .container
+    // Main hero unit for a primary marketing message or call to action
+    .hero-unit
+      h1 Тестовый сервер
+      p
+        | Сервер создан для тестирования устройств.Сайт тестовый и не предназначен для постоянного использования
+      p
+        a.btn(href='/registration') Registration
+
+    // Example row of columns
+
+    .row
+      .span4
+        h2 Температура
+        p Страница отображения температуры устройств
+        p
+          a.btn(href='/temperature') Temperature »
+      .span4
+        h2 Удаленное управление электропитание
+        p Страница удаленного управления питанием
+        p
+          a.btn(href='/remout') Remoute control »
+      .span4
+        h2 Пятница
+        p
+          | Голосовой асистент.Пока без особых функций.Работает веб версия адекватно только в chrome
+        p
+          a.btn(href='/friday') Friday »
+  hr
+  footer
+    p
+      a(href='http://dev.truxan.by/ru/') © Company 2017
