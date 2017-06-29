@@ -1,0 +1,12 @@
+//Created by sasha on 29/06/2017.
+extends layout
+
+block bodyContent
+    if data_mass
+        div
+            ul
+                - for (var i=0; i<data_mass.length; i++) {
+                  h4= JSON.stringify(data_mass[i])
+                - }
+    else
+        h1 Нет данных

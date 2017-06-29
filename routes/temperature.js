@@ -12,7 +12,7 @@ router.get('/', function(req, res, next) {
         }
         res.render('temperature',data);
     } else {
-        res.redirect('/');
+        res.redirect('/registration');
     }
 });
 

@@ -17,6 +17,7 @@ var registration = require('./routes/registration');
 var temperature = require('./routes/temperature');
 var friday = require('./routes/friday');
 var remout = require('./routes/remout');
+var post = require('./routes/post_test');
 var app = express();
 
 // view engine setup
@@ -49,6 +50,7 @@ app.use('/registration',registration);
 app.use('/temperature',temperature);
 app.use('/friday',friday);
 app.use('/remout',remout);
+app.use('/post',post);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
