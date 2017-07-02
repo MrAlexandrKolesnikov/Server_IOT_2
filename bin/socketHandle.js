@@ -2,8 +2,8 @@
  * Created by sasha on 26/06/2017.
  */
 var bot = require("./bot/bot.js").getAnswer;
-var geoip = require('geoip-lite');
-
+var geoip2 = require('geoip2');
+geoip2.init();
 var botRequest = function (text,socket) {
     var respond = "";
     var device = "";
@@ -12,9 +12,14 @@ var botRequest = function (text,socket) {
     var request_string = text;
     var cmd = request_string.split( "***" );
     var clientIp = socket.request.connection.remoteAddress;
-    console.log(clientIp);
-    var geo = geoip.lookup(clientIp);
-    console.log(geo)
+    geoip2.lookupSimple(clientIp, function(error, result) {
+        if (error) {
+            console.log("Error: %s", error);
+        }
+        else if (result) {
+            console.log(result);
+        }
+    });
     cmd.forEach( function ( item )
     {
         if( item.indexOf( "user:" ) != -1 )
