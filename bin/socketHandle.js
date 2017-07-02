@@ -2,7 +2,7 @@
  * Created by sasha on 26/06/2017.
  */
 var bot = require("./bot/bot.js").getAnswer;
-var geoip = require('geoip-lite');
+//var geoip = require('geoip-lite');
 
 var botRequest = function (text,socket) {
     var respond = "";
@@ -12,8 +12,8 @@ var botRequest = function (text,socket) {
     var request_string = text;
     var cmd = request_string.split( "***" );
     var clientIp = socket.request.connection.remoteAddress;
-    var geo = geoip.lookup(ip);
-    console.log(geo)
+    //var geo = geoip.lookup(ip);
+    console.log(clientIp)
     cmd.forEach( function ( item )
     {
         if( item.indexOf( "user:" ) != -1 )
