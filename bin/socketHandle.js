@@ -12,7 +12,7 @@ var botRequest = function (text,socket) {
     var request_string = text;
     var cmd = request_string.split( "***" );
     var clientIp = socket.request.connection.remoteAddress;
-    var geo = geoip.lookup(ip);
+    var geo = geoip.lookup(clientIp);
     console.log(geo)
     cmd.forEach( function ( item )
     {
