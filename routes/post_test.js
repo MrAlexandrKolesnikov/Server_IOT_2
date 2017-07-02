@@ -2,11 +2,14 @@
  * Created by sasha on 29/06/2017.
  */
 var express = require('express');
-var router = express.Router();
+//var router = express.Router();
+var AsyncRouter = require("express-async-router").AsyncRouter;
+var router = AsyncRouter();
 var api = require('../api');
 
 var post_data = []
-router.get('/', function(req, res, next) {
+
+router.get("/", function(req, res, next) {
     if(req.session.user){
         var data = {
             title: 'Express',
@@ -15,7 +18,7 @@ router.get('/', function(req, res, next) {
         }
         res.render('post_test',data);
     } else {
-        res.redirect('/');
+        res.redirect('/registration');
     }
 });
 

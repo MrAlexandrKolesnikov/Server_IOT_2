@@ -6,9 +6,8 @@
 var CreateTxtFileByName = require("./WorkWithFile.js").CreateTxtFileByName; //func for worck with txt file
 var WriteTxtFile = require("./WorkWithFile.js").WriteTxtFile; //func for write text in txt file
 var CheckDevice = require("./CheckDevice.js").checkDevice; //func for check divice and cmd
-//var SetDeviceStatus = require("../device/wifiPower.js").setStatus;
-//var mysql = require('mysql'); //for mysql database
-//var PythonShell = require('python-shell'); //for run python shell
+var NumberOfDevice = require("../device/list_wifiPower.js").getNumberOfDevice;
+var setDeviceStatus = require("../device/list_wifiPower.js").setStatus;
 
 
 //********************* Options For USER Queriess******************************************************
@@ -83,8 +82,10 @@ var CloseProgOptins      =  [ "закрой" , "заверши" , "убей пр
 
 var lastMessage          =    "Это первое сообщение";
 
-var ledOn                =  [ "включи свет" , "свет включить"];
-var ledOff               =  [ "выключи свет" , "свет выключить"];
+var On                   =  [ "вкл" , "вруби"];
+var Off                  =  [ "вык" , "выруби"];
+
+var led                  =  ["лампочку","свет","розетку"];
 
 //*******************************************************************************************
 
@@ -408,159 +409,44 @@ exports.getcmd = function( cmd , device)
         });
 
     if( !findcmd )
-        ledOn.forEach( function ( item )
+        On.forEach( function ( item )
+        {
+
+            if( cmd.indexOf( item ) != -1 )
+            {
+                led.forEach(function ( item_led ) {
+                   if(cmd.indexOf( item ) != -1)
+                   {
+                       if (NumberOfDevice() != 0) {
+                           setDeviceStatus(0, 1);
+                           lastMessage = "answer:" + answerOk[Random(0, 3)];
+                           findcmd = lastMessage;
+                       }
+                       else {
+                           findcmd = "answer:Извините,ни одного усройства не подключено к серверу";
+                       }
+                   }
+                });
+            }
+        });
+
+    if( !findcmd )
+        Off.forEach( function ( item )
         {
             findIndex = cmd.indexOf( item );
 
             if( findIndex != -1 )
             {
-                SetDeviceStatus(1);
-                lastMessage = "answer:"+answerOk[ Random( 0 , 3 ) ];
-                findcmd = lastMessage;
-            }
-        });
-
-    if( !findcmd )
-        ledOff.forEach( function ( item )
-        {
-            findIndex = cmd.indexOf( item );
-
-            if( findIndex != -1 )
-            {
-                SetDeviceStatus(0);
-                lastMessage = "answer:"+answerOk[ Random( 0 , 3 ) ];
-                findcmd = lastMessage;
-            }
-        });
-
-    //search command for make test
-    if( !findcmd )
-        TestBot.forEach( function ( item )
-        {
-            findIndex = cmd.indexOf(item);
-            if(findIndex != -1)
-            {
-                findcmd = "test";
-            }
-        });
-
-    //serch make file command
-    if( !findcmd )
-        make.forEach( function ( item ) 
-        {
-            findIndex = cmd.indexOf( item );
-            if( findIndex != -1 )
-            {
-                flagOfComandContinue[ 0 ] = true;
-                findcmd =  "answer:" + fileNamequestion[ Random( 0 , 2 ) ];
-            }
-        });
-
-    //serch Launch prog command
-    if(!findcmd)
-        if( cmd.indexOf( OpenProgOptins[ 0 ] ) != -1 || cmd.indexOf( OpenProgOptins[ 1 ] ) != -1 )
-        {
-            AppOption.forEach( function ( item )
-            {
-                findIndex = cmd.indexOf( item[ 0 ] );
-
-                if ( findIndex != -1 )
-                {
-                    endOfRequest = findIndex + item.length;
-
-                    var options =
-                    {
-                        args: [""]
-                    };
-
-                    options.args = item[ 1 ];
-                    PythonShell.run( 'PythonScript/LaunchApp.py' , options , function ( err , results )
-                    {
-                        if ( err ) throw err;
-                    });
-
-                    findcmd = "answer:" + answerOk[Random(0, 3)];
+                if (NumberOfDevice() != 0) {
+                    setDeviceStatus(0, 1);
+                    lastMessage = "answer:" + answerOk[Random(0, 3)];
+                    findcmd = lastMessage;
                 }
-            });
-        };
-
-    //serch close prog command
-    if( !findcmd )
-        if( cmd.indexOf( CloseProgOptins[ 0 ] ) != -1 || cmd.indexOf( CloseProgOptins[ 1 ] ) != -1 || cmd.indexOf( CloseProgOptins[ 2 ] ) != -1 )
-        {
-            AppOption.forEach( function ( item )
-            {
-                findIndex = cmd.indexOf( item[ 0 ] );
-                if ( findIndex != -1 )
-                {
-                    endOfRequest = findIndex + item.length;
-                    var options =
-                    {
-                        args: [""]
-                    };
-                    options.args = item[ 1 ];
-
-                    PythonShell.run( 'PythonScript/CloseApp.py' , options , function ( err , results )
-                    {
-                        if ( err ) throw err;
-                    });
-
-                    findcmd = "answer:" + answerOk[ Random( 0 , 3 ) ];
+                else {
+                    findcmd = "answer:Извините,ни одного усройства не подключено к серверу";
                 }
-            });
-        }
-
-    //serch volume control command
-    if( !findcmd )
-    VolumeControlOption.forEach( function ( item )
-    {
-        findIndex = cmd.indexOf( item[ 0 ] );
-
-        if( findIndex != -1 )
-        {
-            endOfRequest = findIndex + item.length;
-
-            var options =
-            {
-                args: [""]
-            };
-            options.args = item[ 1 ];
-            PythonShell.run( 'PythonScript/VolumeControl.py' , options , function ( err , results )
-            {
-                if ( err ) throw err;
-            });
-
-            findcmd = "answer:" + answerOk[ Random( 0 , 3 ) ];
-        }
-    });
-
-
-    //serch restart prog command
-    if( !findcmd )
-        if( cmd.indexOf( "перезапусти" ) != -1 || cmd.indexOf( "перезагрузи" ) != -1 )
-        {
-            AppOption.forEach( function ( item )
-            {
-                findIndex = cmd.indexOf( item[ 0 ] );
-
-                if ( findIndex != -1 )
-                {
-                    /*endOfRequest = findIndex + item.length;
-                    var options =
-                    {
-                        args: [""]
-                    };
-                    options.args = item[ 1 ];
-                    PythonShell.run( 'PythonScript/RestartApp.py' , options, function ( err , results )
-                    {
-                        if ( err ) throw err;
-                    });
-                    findcmd = "answer:" + answerOk[ Random( 0 , 3 ) ];*/
-                    lastMessage = "answer:Извините но я немогу выполнить данную команду на этом устройстве";
-                    findcmd =  lastMessage;
-                }
-            });
-        }
+            }
+        });
     //serch money convert command
     /*if(!findcmd)
         rateMoney.forEach( function ( item )

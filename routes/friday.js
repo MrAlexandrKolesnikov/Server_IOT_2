@@ -5,7 +5,9 @@
  * Created by sasha on 26/06/2017.
  */
 var express = require('express');
-var router = express.Router();
+//var router = express.Router();
+var AsyncRouter = require("express-async-router").AsyncRouter;
+var router = AsyncRouter();
 
 router.get('/', function(req, res, next) {
     if(req.session.user){
@@ -15,7 +17,7 @@ router.get('/', function(req, res, next) {
         }
         res.render('friday',data);
     } else {
-        res.redirect('/');
+        res.redirect('/registration');
     }
 });
 

@@ -1,8 +1,8 @@
 var express = require('express');
-var ObjectID = require('mongodb').ObjectID;
 var router = express.Router();
 var api = require('../api.js')
-
+//var AsyncRouter = require("express-async-router").AsyncRouter;
+//var router = AsyncRouter();
 /* Создание пользователя */
 router.post('/login', function(req, res, next) {
     if (req.session.user) return res.redirect('/');

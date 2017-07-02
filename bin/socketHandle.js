@@ -2,14 +2,18 @@
  * Created by sasha on 26/06/2017.
  */
 var bot = require("./bot/bot.js").getAnswer;
+var geoip = require('geoip-lite');
 
-var botRequest = function (text,soket) {
+var botRequest = function (text,socket) {
     var respond = "";
     var device = "";
     var cmd_mass = "";
     var user_cmd = "";
     var request_string = text;
     var cmd = request_string.split( "***" );
+    var clientIp = socket.request.connection.remoteAddress;
+    var geo = geoip.lookup(ip);
+    console.log(geo)
     cmd.forEach( function ( item )
     {
         if( item.indexOf( "user:" ) != -1 )
@@ -26,7 +30,7 @@ var botRequest = function (text,soket) {
     console.log( "User:" + user_cmd + "   device:" + device);
     respond = bot( user_cmd , device );
     console.log("Bot:" + respond);
-    soket.emit('fridayRespond',respond);
+    socket.emit('fridayRespond',respond);
 }
 
 exports.botRequest = botRequest;
