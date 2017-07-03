@@ -7,8 +7,8 @@
 var app = require('../app');
 var debug = require('debug')('server-iot-2:server');
 var http = require('http');
-//var cluster = require('cluster');
-//var numCPUs = require('os').cpus().length;
+var cluster = require('cluster');
+var numCPUs = require('os').cpus().length;
 
 var botRequest = require('./socketHandle.js').botRequest;
 /**
@@ -21,7 +21,7 @@ app.set('port', port);
 /**
  * Create HTTP server.
  */
-/*if (cluster.isMaster) {
+if (cluster.isMaster) {
     for (var i = 0; i < numCPUs; i++) {
         cluster.fork();
     }
@@ -38,8 +38,11 @@ app.set('port', port);
     });
 }
 else
-{*/
+{
     var server = http.createServer(app);
+    server.listen(port);
+    server.on('error', onError);
+    server.on('listening', onListening);
 
     var io = require('socket.io')(server);
     io.on('connection', function(socket){
@@ -50,18 +53,15 @@ else
         socket.on('fridayRequest',function (message) {
             console.log(message);
             botRequest(message,socket);
-        });
+        })
 
 
     });
-    /**
-     * Listen on provided port, on all network interfaces.
-     */
+}
 
-    server.listen(port);
-    server.on('error', onError);
-    server.on('listening', onListening);
-//}
+/**
+ * Listen on provided port, on all network interfaces.
+ */
 
 
 /**

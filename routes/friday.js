@@ -13,7 +13,8 @@ router.get('/', function(req, res, next) {
     if(req.session.user){
         var data = {
             title: 'Express',
-            user : req.session.user
+            user : req.session.user,
+            userId : req.session.user.userId
         }
         res.render('friday',data);
     } else {

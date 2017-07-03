@@ -12,7 +12,7 @@ var MongoStore = require('connect-mongo')(session);
 
 
 var index = require('./routes/index');
-var users = require('./routes/users');
+var auth = require('./routes/auth');
 var registration = require('./routes/registration');
 var temperature = require('./routes/temperature');
 var friday = require('./routes/friday');
@@ -26,7 +26,7 @@ app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
+//app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -44,8 +44,7 @@ app.use(session({
 }));
 
 app.use('/', index);
-app.use('/users', users);
-app.use('/logout', users);
+app.use('/auth', auth);
 app.use('/registration',registration);
 app.use('/temperature',temperature);
 app.use('/friday',friday);

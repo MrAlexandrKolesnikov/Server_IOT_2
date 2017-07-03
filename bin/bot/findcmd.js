@@ -8,7 +8,14 @@ var WriteTxtFile = require("./WorkWithFile.js").WriteTxtFile; //func for write t
 var CheckDevice = require("./CheckDevice.js").checkDevice; //func for check divice and cmd
 var NumberOfDevice = require("../device/list_wifiPower.js").getNumberOfDevice;
 var setDeviceStatus = require("../device/list_wifiPower.js").setStatus;
-
+var openWeatherMapKey = "4b5e93701d19a46c337138750f05322d";
+var weather = require('node-openweather')
+({
+    key: openWeatherMapKey,
+    accuracy: "like",
+    unit: "metric",
+    language: "en"
+});
 
 //********************* Options For USER Queriess******************************************************
 
@@ -97,7 +104,7 @@ var answerOk             =  [ "Хорошо" , "Сделано" , "Окей" , "
 var answerSerch          =  [ "Вот что я нашла" , "Поиск выполнен" , "Вот ответ на ваш запрос" ];
 
 
-var fileNamequestion     =  [ "Как назвать файл?" , "Назовите Файл" , "Имя файла" ];
+var weatherReq               =  ["погода"]
 
 //*******************************************************************************************
 
@@ -433,34 +440,38 @@ exports.getcmd = function( cmd , device)
     if( !findcmd )
         Off.forEach( function ( item )
         {
-            findIndex = cmd.indexOf( item );
-
-            if( findIndex != -1 )
+            if( cmd.indexOf( item ) != -1 )
             {
-                if (NumberOfDevice() != 0) {
-                    setDeviceStatus(0, 1);
-                    lastMessage = "answer:" + answerOk[Random(0, 3)];
-                    findcmd = lastMessage;
-                }
-                else {
-                    findcmd = "answer:Извините,ни одного усройства не подключено к серверу";
-                }
+                led.forEach(function ( item_led ) {
+                    if(cmd.indexOf( item ) != -1)
+                    {
+                        if (NumberOfDevice() != 0) {
+                            setDeviceStatus(0, 0);
+                            lastMessage = "answer:" + answerOk[Random(0, 3)];
+                            findcmd = lastMessage;
+                        }
+                        else {
+                            findcmd = "answer:Извините,ни одного усройства не подключено к серверу";
+                        }
+                    }
+                });
             }
         });
-    //serch money convert command
-    /*if(!findcmd)
-        rateMoney.forEach( function ( item )
+
+    if( !findcmd )
+        weatherReq.forEach( function ( item )
         {
             findIndex = cmd.indexOf( item );
-
-            if(findIndex != -1 )
-            {
-                endOfRequest = findIndex + item.length;
-                lastMessage = "answer:" + answerOk[ Random( 0 , 3 ) ];
-                findcmd =  lastMessage+"***"+"insert_element:"+MoneyInformer;
+            if(findIndex != -1) {
+                weather.city('Минск').now().then(function(res) {
+                    //success logic
+                    console.log(res);
+                }).catch(function(err) {
+                    //error handling
+                });
+                findcmd = "answer:Извините,ни одного усройства не подключено к серверу";
             }
-        });*/
-
+        });
 
     lastComand = cmd;
     return findcmd;

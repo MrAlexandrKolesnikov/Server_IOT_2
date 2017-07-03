@@ -8,7 +8,6 @@ var optionControlStart = ["начать работу","начать запись
 var answerHello = ["Здравствуйте","Добрый день","Привет","Я вас слушаю"]
 var answerBy = ["Завершение работы","Работа завершена","Конец Работы","заткнись","замолчи"];
 var optionAnswer = ["answer:","openPage:","restart", "test" , "insert_element:" ,"openApp:"];
-var TestAnswerRequest = [["посчитай 3 + 5","8"],["сколько будет 7*8/4","14"],["переведи 40 метров в километры","0.04 километр"],["переведи 30 километров в метры","30000 метров"],["cоздать файл","файл"],["123","Записать файл?"],["да",""]];
 
 
 var socket = io();
@@ -36,6 +35,21 @@ var work = false;
 var transcription = 0;
 var hiSpeeck = false;
 var last;
+var positionString;
+
+function getLocation() {
+    if (navigator.geolocation) {
+       return navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+        return "Geolocation is not supported by this browser.";
+    }
+}
+function showPosition(position) {
+
+   positionString = position.coords.latitude +"&"+ position.coords.longitude
+}
+console.log(userId);
+getLocation();
 function start() {
 
     recognizer.start();
@@ -208,7 +222,7 @@ var PrintElement = function( element  )
 var SendPrintToServer = function (text) {
     UserMessageId++;
     PrintMessage("user", text);
-    var string = "device:web***user:" + text
+    var string = "device:web***user:" + text + "***position:" + positionString + "***userId:" + userId;
     socket.emit("fridayRequest",string);
 }
 

@@ -4,6 +4,8 @@ html
     title= title
     link(rel='stylesheet', href='/stylesheets/panel/bootstrap.css')
     link(rel='stylesheet', href='/stylesheets/panel/bootstrap-responsive_index.css')
+    script.
+        var userId = !{JSON.stringify(userId)};
     block headerContent
   body
     .navbar.navbar-inverse.navbar-fixed-top
@@ -24,10 +26,10 @@ html
                 a(href='http://dev.truxan.by/ru/') Contact
             if user
               p.navbar-form.pull-right= user.name
-              form.navbar-form.pull-right(method='post', action='/users/logout')
+              form.navbar-form.pull-right(method='post', action='/auth/logout')
                 input.btn(type='submit',name = 'logout')
             else
-              form.navbar-form.pull-right(method='post', action='/users/login')
+              form.navbar-form.pull-right(method='post', action='/auth/login')
                 input(type='text', name='email')
                 input(type='password', name='password')
                 input.btn(type='submit')
