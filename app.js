@@ -39,7 +39,7 @@ app.use(session({
     saveUninitialized: false,
     // Место хранения можно выбрать из множества вариантов, это и БД и файлы и Memcached.
     store: new MongoStore({
-        url: 'mongodb://root:12345@ds032340.mlab.com:32340/server_iot_db',
+        url: 'mongodb://root:12345@ds151452.mlab.com:51452/server_iot_db',
     })
 }));
 

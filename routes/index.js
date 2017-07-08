@@ -11,14 +11,13 @@ router.get('/', function(req, res, next) {
         var data = {
             user : req.session.user
         }
-        res.render('index', data);
-        res.end();
+        return res.render('index', data);
     } else {
         var data = {
             title: 'Express',
         }
-        res.render('index', data);
-        res.end();
+        //return res.status(200).send(); //
+        return res.render('index', data);
     }
 });
 

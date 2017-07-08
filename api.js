@@ -1,15 +1,14 @@
 var mongoose = require('mongoose');
 var crypto = require('crypto');
-var db = mongoose.connect("mongodb://root:12345@ds032340.mlab.com:32340/server_iot_db")
+var db = mongoose.connect("mongodb://root:12345@ds151452.mlab.com:51452/server_iot_db")
 var User = require('./models/User.js');
 var uuidv4 = require('uuid/v4');
 // User API
 
 exports.createUser = function(userData){
-    console.log('create User');
     var user = {
+        _id:uuidv4(),
         username: userData.name,
-        userId: uuidv4(),
         email: userData.email,
         password: hash(userData.password)
     };

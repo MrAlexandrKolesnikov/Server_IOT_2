@@ -11,7 +11,7 @@ router.post('/login', function(req, res, next) {
         api.checkUser(req.body).then(function(user)
         {
             if(user[0]){
-                req.session.user = {userId: user[0].userId, name: user[0].username, password: user[0].password};
+                req.session.user = { id: user[0]._id,name: user[0].username, password: user[0].password};
                 res.redirect('/');
             } else {
                 return next(error)
@@ -27,7 +27,6 @@ router.post('/login', function(req, res, next) {
 router.post('/registr', function(req, res, next) {
     api.createUser(req.body)
         .then(function(result){
-            console.log("User created")
             res.redirect(307,'/auth/login');
         })
         .catch(function(err){
@@ -37,7 +36,6 @@ router.post('/registr', function(req, res, next) {
         })
 });
 router.post('/logout', function(req, res, next) {
-    console.log("Logout");
     if (req.session.user) {
         req.session.destroy(function() {
             res.clearCookie('connect.sid');

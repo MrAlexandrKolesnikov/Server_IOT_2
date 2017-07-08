@@ -47,7 +47,10 @@ html(lang='en')
         .container
             form.form-signin(method='post', action='auth/registr')
                 h2.form-signin-heading Registration form
+                h6.form-signin-heading name
                 input.input-block-level(type='text', name='name')
+                h6.form-signin-heading email
                 input.input-block-level(type='text', name='email')
+                h6.form-signin-heading password
                 input.input-block-level(type='password', name='password')
                 input(type='submit')
