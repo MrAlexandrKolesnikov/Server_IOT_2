@@ -14,6 +14,7 @@ router.get('/', function(req, res, next) {
         var data = {
             title: 'Express',
             user : req.session.user,
+            id: req.session.id
         }
         res.render('friday',data);
     } else {

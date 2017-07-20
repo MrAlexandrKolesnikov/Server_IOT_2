@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<script type="text/javascript">
+	function start()
+	{
+		var requestString = "http://api.openweathermap.org/data/2.5/weather?q=Гомеле" + "&cnt=16&mode=json&APPID=5320531804abef2a9758742d19073490";
+    request = new XMLHttpRequest();
+    request.open("get", requestString, true);
+    request.send();
+    request.onreadystatechange = function ()
+    {
+        if (request.readyState == 4)
+        {
+            console.log(request.responseText);
+
+        }
+    }
+	}
+</script>
+<body onload="start()">
+
+</body>
+</html>

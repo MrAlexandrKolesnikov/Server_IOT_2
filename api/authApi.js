@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var crypto = require('crypto');
 var db = mongoose.connect("mongodb://root:12345@ds151452.mlab.com:51452/server_iot_db")
-var User = require('./models/User.js');
+var User = require('../models/User.js');
 var uuidv4 = require('uuid/v4');
 // User API
 

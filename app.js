@@ -18,6 +18,8 @@ var temperature = require('./routes/temperature');
 var friday = require('./routes/friday');
 var remout = require('./routes/remout');
 var post = require('./routes/post_test');
+var simulation = require('./routes/simulation');
+var gps_tracker = require('./routes/gps_tracker');
 var app = express();
 
 // view engine setup
@@ -32,6 +34,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'bot')));
+app.use(express.static(path.join(__dirname, 'device_simulation/wifi_power')));
 app.use(express.static(path.join(__dirname, 'bin')));
 app.use(session({
     secret: 'i need more beers',
@@ -49,7 +52,10 @@ app.use('/registration',registration);
 app.use('/temperature',temperature);
 app.use('/friday',friday);
 app.use('/remout',remout);
+app.use('/simulation',simulation);
 app.use('/post',post);
+app.use('/gps',gps_tracker);
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

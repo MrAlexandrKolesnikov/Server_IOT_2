@@ -8,7 +8,6 @@ function device(socket,id)
 {
     this._id = id;
     this._socket = socket;
-    console.log("Device Connect!");
 }
 method.getId = function()
 {

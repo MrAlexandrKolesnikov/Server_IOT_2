@@ -5,32 +5,23 @@
 //require import
 var CreateTxtFileByName = require("./WorkWithFile.js").CreateTxtFileByName; //func for worck with txt file
 var WriteTxtFile = require("./WorkWithFile.js").WriteTxtFile; //func for write text in txt file
-var CheckDevice = require("./CheckDevice.js").checkDevice; //func for check divice and cmd
 var NumberOfDevice = require("../device/list_wifiPower.js").getNumberOfDevice;
 var setDeviceStatus = require("../device/list_wifiPower.js").setStatus;
-var openWeatherMapKey = "4b5e93701d19a46c337138750f05322d";
+var weather  = require('./weather.js').weatherTry;
+var internetSerchCmd = require('./internetSerchCmd.js').internetSerchCmd;
+var wifiPower_cmd = require('./wifiPower_cmd.js').wifiPOwer_cmd;
+
+var Promise = require('bluebird');
+/*var openWeatherMapKey = "4b5e93701d19a46c337138750f05322d";
 var weather = require('node-openweather')
 ({
     key: openWeatherMapKey,
     accuracy: "like",
     unit: "metric",
     language: "en"
-});
+});*/
 
 //********************* Options For USER Queriess******************************************************
-
-var optionGoogleSerch    =  [ "-----" , "найди в гугле" , "загугли" , "поиск в гугл" , "найди в google" ,"найди мне информацию о"
-                            , "найди в гугле про" ,"кто такой" ,"найди в гугле o" , "что такое" ];
-var optionGoogleOpen     =  [ "открой google" , "открой гугл" ];
-
-
-var optionWikiSerch      =  [ "найди в википедии", "найти в википедии"];
-var optionWikiOpen       =  [ "открой википедию" ,"открой wiki" , "открой вики","открой wikipedia"];
-
-
-var optionGoogleMapSerch =  [ "найди на карте" , "где находится" , "открой на карте" , "покажи на карте" ];
-var optionGoogleMapOpen  =  [ "открой карты" , "открой карты google" ];
-
 
 var optionMath           =  [ [ "минус" , "-" ] , [ "и минус" , "-" ] , [ "отнять" , "-" ] , [ "и отнять" , "-" ] , [ "плюс" , "+" ]
                             , [ "и плюс" , "+" ] , [ "и прибавить" , "+" ] , [ "прибавить" , "+" ] , [ "умножить на" , "*" ]
@@ -89,10 +80,6 @@ var CloseProgOptins      =  [ "закрой" , "заверши" , "убей пр
 
 var lastMessage          =    "Это первое сообщение";
 
-var On                   =  [ "вкл" , "вруби"];
-var Off                  =  [ "вык" , "выруби"];
-
-var led                  =  ["лампочку","свет","розетку"];
 
 //*******************************************************************************************
 
@@ -199,282 +186,38 @@ exports.ContinueComand = function ( cmd )
 //main func for command understanding
 exports.getcmd = function( cmd , device)
 {
-    cmd = cmd.toLowerCase( );
 
-    var findcmd = false;
-
-    //serch google serch command
-    optionGoogleSerch.forEach( function ( item )
+    return new Promise(function (resolve, reject)
     {
-        findIndex = cmd.indexOf( item );
 
-            if( findIndex != -1 && !findcmd  )
+        cmd = cmd.toLowerCase( );
+
+        internetSerchCmd(cmd , device).then(
+            result_iternet =>
             {
-                if( CheckDevice( "openPage" , device ) ) //check can device do command
+                if(!result_iternet)
                 {
-                    endOfRequest = findIndex + item.length;
-                    lastMessage = "answer:" + answerSerch[ Random( 0 , 3 ) ];
-                    findcmd = lastMessage + "***" + MakeGoogleSerchURL( cmd , findIndex += item.length );
+                    wifiPower_cmd(cmd).then(
+                        result_wifiPower =>
+                        {
+                            if(!result_wifiPower)
+                            {
+                                console.log("return false");
+                                resolve(false);
+                            }
+                            else
+                            {
+                                resolve(result_wifiPower);
+                            }
+                        }
+                    )
                 }
                 else
                 {
-                    lastMessage = "answer:Извините но я немогу выполнить данную команду на этом устройстве";
-                    findcmd =  lastMessage;
+                    resolve(result_iternet);
                 }
-            }
+            });
     });
-
-    //serch google open command
-    if( !findcmd )
-        optionGoogleOpen.forEach( function ( item )
-        {
-            findIndex = cmd.indexOf( item );
-
-            if( findIndex != -1 )
-            {
-                if( CheckDevice( "openPage" , device ) )
-                {
-                    endOfRequest = findIndex + item.length;
-                    lastMessage = "answer:"+answerOk[ Random( 0 , 3 ) ];
-                    findcmd = lastMessage+"***"+"openPage:google.com";
-                }
-                else
-                {
-                    lastMessage = "answer:Извините но я немогу выполнить данную команду на этом устройстве";
-                    findcmd =  lastMessage;
-                }
-            }
-        });
-
-    //serch wiki search command
-    if( !findcmd )
-        optionWikiSerch.forEach( function ( item )
-        {
-            findIndex = cmd.indexOf( item );
-            if( findIndex != -1 )
-            {
-                if( CheckDevice( "openPage" , device ) )
-                {
-                    endOfRequest = findIndex + item.length;
-                    lastMessage = "answer:" + answerSerch[ Random( 0 , 3 ) ];
-                    findcmd = lastMessage + "***" + MakeWikiSerchURL( cmd , findIndex += item.length );
-                }
-                else
-                {
-                    lastMessage = "answer:Извините но я немогу выполнить данную команду на этом устройстве";
-                    findcmd =  lastMessage;
-                }
-            }
-        });
-
-    //serch wiki open command
-    if( !findcmd )
-        optionWikiOpen.forEach(function (item)
-        {
-            findIndex = cmd.indexOf( item );
-
-            if( findIndex != -1 )
-            {
-                if( CheckDevice( "openPage" , device ) )
-                {
-                    endOfRequest = findIndex + item.length;
-                    lastMessage = "answer:" + answerOk[ Random( 0 , 3 ) ];
-                    findcmd = lastMessage + "***" + "openPage:ru.wikipedia.org/";
-                }
-                else
-                {
-                    lastMessage = "answer:Извините но я немогу выполнить данную команду на этом устройстве";
-                    findcmd =  lastMessage;
-                }
-            }
-        });
-
-    //serch google map serch command
-    if( !findcmd )
-        optionGoogleMapSerch.forEach(function (item)
-        {
-            findIndex = cmd.indexOf( item );
-
-            if( findIndex != -1 )
-            {
-                if( CheckDevice( "openPage" , device ) )
-                {
-                    endOfRequest = findIndex + item.length;
-                    lastMessage = "answer:" + answerSerch[ Random( 0 , 3 ) ];
-                    findcmd = lastMessage + "***" + MakeGoogleMapSerchURL( cmd , findIndex += item.length);
-                }
-                else
-                {
-                    lastMessage = "answer:Извините но я немогу выполнить данную команду на этом устройстве";
-                    findcmd =  lastMessage;
-                }
-            }
-        });
-
-    //serch google map open command
-    if( !findcmd )
-        optionGoogleMapOpen.forEach( function ( item )
-        {
-            findIndex = cmd.indexOf( item );
-
-            if( findIndex != -1)
-            {
-                if( CheckDevice( "openPage" , device ) )
-                {
-                    endOfRequest = findIndex + item.length;
-                    lastMessage = "answer:" + answerOk[ Random( 0 , 3 ) ];
-                    findcmd = lastMessage + "***" + "openPage:google.ru/maps";
-                }
-                else
-                {
-                    lastMessage = "answer:Извините но я немогу выполнить данную команду на этом устройстве";
-                    findcmd =  lastMessage;
-                }
-            }
-        });
-
-    //search restart command
-    if( !findcmd )
-        optionReload.forEach( function ( item )
-        {
-            findIndex = cmd.indexOf( item );
-
-            if( findIndex != -1 && cmd.length == item.length )
-            {
-                if( CheckDevice( "restart" , device ) )
-                {
-                    endOfRequest = findIndex + item.length;
-                    findcmd = "restart" ;
-                }
-                else
-                {
-                    lastMessage = "answer:Извините но я немогу выполнить данную команду на этом устройстве";
-                    findcmd =  lastMessage;
-                }
-            }
-        });
-
-    //generate random sequence - need separete file
-    if(!findcmd)
-        randomSequence.forEach( function ( item )
-        {
-            findIndex = cmd.indexOf( item[ 0 ] )
-
-            if(findIndex != -1)
-            {
-                endOfRequest = findIndex + item.length;
-                var lenthRandom = item[ 1 ];
-                var min = 0;
-                var max = 1;
-                var stringforRandom = cmd.substring( findIndex += item[ 0 ].length + 1 );
-                stringforRandom = stringforRandom.split(" ");
-
-                for( var i = 0 ; i < stringforRandom.length ; i++ )
-                {
-                    if( stringforRandom[ i ] == "от" || stringforRandom[ i ] == "c")
-                    {
-                        min = Math.floor( stringforRandom[ i + 1 ] );
-                    }
-                    if( stringforRandom[ i ] == "до" )
-                    {
-                        max = Math.floor( stringforRandom[ i + 1 ] );
-                    }
-                    if( stringforRandom[ i ] == "длиной" || stringforRandom[ i ] == "размером")
-                    {
-                        lenthRandom = Math.floor( stringforRandom[ i + 1 ] );
-                    }
-                }
-
-                var buf;
-
-                console.log( "min:" + min + " max:" + max + " lenth:" + lenthRandom) ;
-
-                buf = "answer:";
-
-                for( var i = 0 ; i < lenthRandom-1 ; i++ )
-                {
-                    buf += Random( min , max ) + " ";
-                }
-
-                buf += Random( min , max );
-
-                findcmd = buf;
-                lastMessage = buf;
-            }
-        });
-
-    //search command for get last answer
-    if( !findcmd )
-        lastAnswer.forEach( function ( item )
-        {
-            findIndex = cmd.indexOf( item );
-
-            if( findIndex != -1 )
-            {
-                findcmd = lastMessage;
-            }
-        });
-
-    if( !findcmd )
-        On.forEach( function ( item )
-        {
-
-            if( cmd.indexOf( item ) != -1 )
-            {
-                led.forEach(function ( item_led ) {
-                   if(cmd.indexOf( item ) != -1)
-                   {
-                       if (NumberOfDevice() != 0) {
-                           setDeviceStatus(0, 1);
-                           lastMessage = "answer:" + answerOk[Random(0, 3)];
-                           findcmd = lastMessage;
-                       }
-                       else {
-                           findcmd = "answer:Извините,ни одного усройства не подключено к серверу";
-                       }
-                   }
-                });
-            }
-        });
-
-    if( !findcmd )
-        Off.forEach( function ( item )
-        {
-            if( cmd.indexOf( item ) != -1 )
-            {
-                led.forEach(function ( item_led ) {
-                    if(cmd.indexOf( item ) != -1)
-                    {
-                        if (NumberOfDevice() != 0) {
-                            setDeviceStatus(0, 0);
-                            lastMessage = "answer:" + answerOk[Random(0, 3)];
-                            findcmd = lastMessage;
-                        }
-                        else {
-                            findcmd = "answer:Извините,ни одного усройства не подключено к серверу";
-                        }
-                    }
-                });
-            }
-        });
-
-    if( !findcmd )
-        weatherReq.forEach( function ( item )
-        {
-            findIndex = cmd.indexOf( item );
-            if(findIndex != -1) {
-                weather.city('Минск').now().then(function(res) {
-                    //success logic
-                    console.log(res);
-                }).catch(function(err) {
-                    //error handling
-                });
-                findcmd = "answer:Извините,ни одного усройства не подключено к серверу";
-            }
-        });
-
-    lastComand = cmd;
-    return findcmd;
 };
 
 //make google url

@@ -1,11 +1,10 @@
 doctype html
 html
   head
-    title= title
     link(rel='stylesheet', href='/stylesheets/panel/bootstrap.css')
     link(rel='stylesheet', href='/stylesheets/panel/bootstrap-responsive_index.css')
     script.
-       // var userId = !{JSON.stringify(userId)};
+        var userId = !{JSON.stringify(id)};
     block headerContent
   body
     .navbar.navbar-inverse.navbar-fixed-top

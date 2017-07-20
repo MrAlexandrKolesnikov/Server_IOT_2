@@ -12,37 +12,21 @@ block headerContent
     script(type='text/javascript', src="/javascripts/remoute/remout.js")
     script(type='text/javascript', src="/javascripts/remoute/bootstrap.js")
     link(href='stylesheets/remoute/cover.css', rel='stylesheet')
-    script(type='text/javascript').
-        $(document).ready(function()
-        {
-            $("#option1").click(function()
-            {
-                console.log("clike ledOff");
-                sendStatus(0);
-                $(".site-wrapper").animate({ backgroundColor: "#333333"}, 1000);
-                $("body").animate({ color: "#FFFFFF"}, 1000);
-            });
-            $("#option2").click(function()
-            {
-                console.log("clike ledOn");
-                sendStatus(1);
-                $(".site-wrapper").animate({ backgroundColor: "#FFFFFF"}, 1000);
-                $("body").animate({ color: "#333333"}, 1000);
-            });
-        });
+    link(href='stylesheets/remoute/bootstrap.css', rel='stylesheet')
 
 block bodyContent
-    .inner.cover
-        h1.cover-heading Страница управления электропитанием
-        p.lead Просто жмите кнопочки и наслаждайтесь =)
+    body(onload='onStart()')
+        .inner.cover
+            h1.cover-heading Страница управления электропитанием
+            p.lead Просто жмите кнопочки и наслаждайтесь =)
+                p.lead
+                    .btn-group(data-toggle='buttons')
+                        label.btn.btn-outline-danger(onclick='sendStatus(0)')
+                            input#option1(type='radio', name='options', checked='')
+                            |  Led Off
+                        label.btn.btn-outline-danger(onclick='sendStatus(1)')
+                            input#option2(type='radio', name='options')
+                            |  Led On
             p.lead
-                .btn-group(data-toggle='buttons')
-                    label.btn.btn-outline-danger
-                        input#option1(type='radio', name='options', checked='')
-                        |  Led Off
-                    label.btn.btn-outline-danger
-                        input#option2(type='radio', name='options')
-                        |  Led On
-        p.lead
-            Id устройства:
-            select#deviceId.btn-outline-danger
+                Id устройства:
+                select#deviceId.btn-outline-danger

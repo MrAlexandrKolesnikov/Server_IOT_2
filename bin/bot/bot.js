@@ -3,6 +3,11 @@ var ContinueComand = require("./findcmd.js").ContinueComand;
 var setLastComand = require("./findcmd.js").setLastComand;
 var setLastComandendRequest = require("./findcmd.js").setLastComandendRequest;
 var MoneyConverter = require("./money_converter.js").MoneyConverter;
+
+
+var Promise = require('bluebird');
+
+
 var botLog;
 var botElementId = "bot";
 var botLogElementId = "botLog";
@@ -527,17 +532,17 @@ SpeechBot.prototype.getResponse = function(message) {
  } else if(this.getLastResponse().search("Ииии!") > -1) {chatBotMessage.setText("Ааааааааа!");
  } else if(this.getLastResponse().search("Ааааааааа!") > -1) {chatBotMessage.setText("Фух! Спасибо! Пока!");
  } else if(r < 0.02 && ( message.search("секс") > -1 
-						  || message.search("ебаться") > -1 
-						  || message.search("ибацца") > -1
-						  || message.search("поебемся") > -1 
-						  || message.search("трах") > -1 
-						  || message.search("ибатся") > -1
-						  || message.search("ебатся") > -1
-						  || message.search("ибаться") > -1
-						  || message.search("ебаца") > -1
-						  || message.search("ебацца") > -1
-						  || message.search("ебаццца") > -1
-						  || message.search("сексом") > -1)) {
+                          || message.search("ебаться") > -1
+                          || message.search("ибацца") > -1
+                          || message.search("поебемся") > -1
+                          || message.search("трах") > -1
+                          || message.search("ибатся") > -1
+                          || message.search("ебатся") > -1
+                          || message.search("ибаться") > -1
+                          || message.search("ебаца") > -1
+                          || message.search("ебацца") > -1
+                          || message.search("ебаццца") > -1
+                          || message.search("сексом") > -1)) {
   chatBotMessage.setText("Ксати о сексе... Я люблю заниматься виртуальным сексом. Как ты на это смотришь?");
  } else if(this.getLastResponse().search("повтори") > -1) {
   if(r < 0.50) {
@@ -698,19 +703,19 @@ SpeechBot.prototype.getResponse = function(message) {
    chatBotMessage.setText("Сколько можно?(");
   };
  } else if((message.search("который час") > -1 
-			|| message.search("сколько часов") > -1
-			|| message.search("часов сколько") > -1
-			|| message.search("сколько время") > -1
-			|| message.search("сколько времени") > -1
-			|| message.search("скока время") > -1
-			|| message.search("скоко время") > -1
-			|| message.search("скока времени") > -1
-			|| message.search("сколько время") > -1
-			|| message.search("сколько на часах") > -1
-			|| message.search("сообщи точное время") > -1
-			|| message.search("сообщи время") > -1
-			|| message.search("скажи время") > -1)
-		   && message.search("несколько") == -1) {
+            || message.search("сколько часов") > -1
+            || message.search("часов сколько") > -1
+            || message.search("сколько время") > -1
+            || message.search("сколько времени") > -1
+            || message.search("скока время") > -1
+            || message.search("скоко время") > -1
+            || message.search("скока времени") > -1
+            || message.search("сколько время") > -1
+            || message.search("сколько на часах") > -1
+            || message.search("сообщи точное время") > -1
+            || message.search("сообщи время") > -1
+            || message.search("скажи время") > -1)
+           && message.search("несколько") == -1) {
    var date = new Date();
    var mm = date.getMinutes(); if(mm < 10) {mm = "0" + mm;};
    var ss = date.getSeconds(); if(ss < 10) {ss = "0" + ss;};
@@ -718,36 +723,36 @@ SpeechBot.prototype.getResponse = function(message) {
  } else if(message.search("день недели") > -1 ) { 
    chatBotMessage.setText("Сегодня " + (new BotTime()).getDayWeek() + ".");
  } else if(message.search("какая сегодня дата") > -1 
-						  || message.search("дата какая") > -1
-						  || message.search("какая дата") > -1
-						  || message.search("скажи дату") > -1
-						  || message.search("дату скажи") > -1
-						  || message.search("назови дату") > -1
-						  || message.search("дату назови") > -1
-						  || message.search("сообщи дату") > -1
-						  || message.search("дату сообщи") > -1
-						  || message.search("какой сейчас день") > -1 
-						  || message.search("какой сегодня день") > -1 
-						  || message.search("какой день") > -1
-						  || message.search("день какой") > -1) { 
+                          || message.search("дата какая") > -1
+                          || message.search("какая дата") > -1
+                          || message.search("скажи дату") > -1
+                          || message.search("дату скажи") > -1
+                          || message.search("назови дату") > -1
+                          || message.search("дату назови") > -1
+                          || message.search("сообщи дату") > -1
+                          || message.search("дату сообщи") > -1
+                          || message.search("какой сейчас день") > -1
+                          || message.search("какой сегодня день") > -1
+                          || message.search("какой день") > -1
+                          || message.search("день какой") > -1) {
    var date = new Date();
    var dd = date.getDate(); if(dd < 10) {dd = "0" + dd;};
    var mm = date.getMonth()+1; if(mm < 10) {mm = "0" + mm;};
    chatBotMessage.setText("Сегодня " + dd + "/" + mm + "/" + date.getFullYear() + ".");
  } else if(message.search("какое сейчас число") > -1 
-						  || message.search("какое сегодня число") > -1 
-						  || message.search("какое число") > -1 
-						  || message.search("число какое") > -1) { 
+                          || message.search("какое сегодня число") > -1
+                          || message.search("какое число") > -1
+                          || message.search("число какое") > -1) {
    chatBotMessage.setText("Сегодня " + (new Date()).getDate() + ".");
  } else if(message.search("какой сейчас месяц") > -1 
-						  || message.search("какой сегодня месяц") > -1 
-						  || message.search("какой месяц") > -1 
-						  || message.search("месяц какой") > -1) { 
+                          || message.search("какой сегодня месяц") > -1
+                          || message.search("какой месяц") > -1
+                          || message.search("месяц какой") > -1) {
    chatBotMessage.setText("Сейчас " + (new BotTime()).getMonth() + ".");
  } else if(message.search("какой сейчас год") > -1 
-						  || message.search("какой сегодня год") > -1 
-						  || message.search("какой год") > -1 
-						  || message.search("год какой") > -1) { 
+                          || message.search("какой сегодня год") > -1
+                          || message.search("какой год") > -1
+                          || message.search("год какой") > -1) {
    chatBotMessage.setText("Сейчас " + (new Date()).getFullYear() + " год.");
  } else if(message.search("переведи") > -1 || message.search("перевести") > -1 ) {
   var tperevedi = LenthConvert(message);
@@ -790,18 +795,18 @@ SpeechBot.prototype.getResponse = function(message) {
    chatBotMessage.setText("МЕДВЕД тоже уже не модно!!");
   };
  } else if(message.search("убей себя ап стену") > -1
-		   || message.search("убей себя аб стену") > -1
-		   || message.search("спаси планету") > -1
-		   || message.search("первый нах") > -1
-		   || message.search("бобруйск животное") > -1
-		   // || message.search("учи албанский") > -1
-		   || message.search("жжош") > -1
-		   || message.search("йаду") > -1
-		   || message.search("выпей яду") > -1
-		   || message.search("ф топку") > -1
-		   || message.search("в топку") > -1
-		   || message.search("красавчег") > -1
-		   || message.search("красавчек") > -1) {
+           || message.search("убей себя аб стену") > -1
+           || message.search("спаси планету") > -1
+           || message.search("первый нах") > -1
+           || message.search("бобруйск животное") > -1
+           // || message.search("учи албанский") > -1
+           || message.search("жжош") > -1
+           || message.search("йаду") > -1
+           || message.search("выпей яду") > -1
+           || message.search("ф топку") > -1
+           || message.search("в топку") > -1
+           || message.search("красавчег") > -1
+           || message.search("красавчек") > -1) {
   if(r < 0.25) {
    chatBotMessage.setText("Падонак...");
   } else if(r < 0.50) {
@@ -812,28 +817,28 @@ SpeechBot.prototype.getResponse = function(message) {
    chatBotMessage.setText("У меня словарный запас больше!");
   };
  } else if(message.search("убей себя") > -1
-		   || message.search("поссы в компот") > -1
-		   || message.search("нассы в компот") > -1
-		   || message.search("сибя ап стену") > -1
-		   // || message.search("учи албанский") > -1
-		   || message.search("убейся") > -1) {
+           || message.search("поссы в компот") > -1
+           || message.search("нассы в компот") > -1
+           || message.search("сибя ап стену") > -1
+           // || message.search("учи албанский") > -1
+           || message.search("убейся") > -1) {
   chatBotMessage.setText("Я не могу убить себя или поссать в компот, я ведь чат бот.");
  } else if(message.search("бобруйск") > -1) { 
   chatBotMessage.setText("Бобруйск - город областного подчинения, центр Бобруйского района. Расположен на расстоянии 110 км от областного центра - г.Могилева. А какого хрена мне делать в Бобруйске - непонятно.");
  } else if(message.search("албанский") > -1) { 
   chatBotMessage.setText("Албанский я буду знать лет через пять. Пока я занята изучением русского.");
  } else if(message == "угу"
-		   || message == "хм"
-		   || message == "мм"
-		   || message == "ээ"
-		   || message == "э"
-		   || message == "а"
-		   || message == "о"
-		   || message == "."
-		   || message == ".."
-		   || message == "..."
-		   || message == "...."
-		   || message == ".....") { 
+           || message == "хм"
+           || message == "мм"
+           || message == "ээ"
+           || message == "э"
+           || message == "а"
+           || message == "о"
+           || message == "."
+           || message == ".."
+           || message == "..."
+           || message == "...."
+           || message == ".....") {
   if(r < 0.10) {
    chatBotMessage.setText("Давай общаться более информативно.");
   } else if(r < 0.20) {
@@ -926,13 +931,13 @@ SpeechBot.prototype.getResponse = function(message) {
    chatBotMessage.setText("Вопросно ответная система.Задавайте вопросы и я попробую на них ответить");
   };
  } else if(message.search("тебя зовут") > -1
-		   || message.search("тебя как зовут") > -1
-		   || message.search("как тебя зовут") > -1
-		   || message.search("тебя звать") > -1
-		   || message.search("тебя как звать") > -1
-		   || message.search("как тебя звать") > -1
-		   || message.search("твоё имя") > -1
-		   || message.search("твое имя") > -1 ) {
+           || message.search("тебя как зовут") > -1
+           || message.search("как тебя зовут") > -1
+           || message.search("тебя звать") > -1
+           || message.search("тебя как звать") > -1
+           || message.search("как тебя звать") > -1
+           || message.search("твоё имя") > -1
+           || message.search("твое имя") > -1 ) {
   if(r < 0.20) {
    chatBotMessage.setText("Вопросно ответная система.");
   } else if(r < 0.40) {
@@ -963,14 +968,14 @@ SpeechBot.prototype.getResponse = function(message) {
    chatBotMessage.setText("И я рада!)");
   };
  } else if(message == "ха" || message == "хаха" || message == "хахаха"
-		   || message == "гы" || message == "гыы" || message == "гыыы"
-		   || message == "гыгы" || message == "ха-ха" || message == "ха-ха-ха"
-		   || message == "ха)" || message == "хаха)" || message == "хахаха)"
-		   || message == "гы)" || message == "гыы)" || message == "гыыы)"
-		   || message == "гыгы)" || message == "ха-ха)" || message == "ха-ха-ха)"
-		   || message == "ха))" || message == "хаха))" || message == "хахаха))"
-		   || message == "гы))" || message == "гыы))" || message == "гыыы))"
-		   || message == "гыгы))" || message == "ха-ха))" || message == "ха-ха-ха))") { 
+           || message == "гы" || message == "гыы" || message == "гыыы"
+           || message == "гыгы" || message == "ха-ха" || message == "ха-ха-ха"
+           || message == "ха)" || message == "хаха)" || message == "хахаха)"
+           || message == "гы)" || message == "гыы)" || message == "гыыы)"
+           || message == "гыгы)" || message == "ха-ха)" || message == "ха-ха-ха)"
+           || message == "ха))" || message == "хаха))" || message == "хахаха))"
+           || message == "гы))" || message == "гыы))" || message == "гыыы))"
+           || message == "гыгы))" || message == "ха-ха))" || message == "ха-ха-ха))") {
   if(r < 0.51) {
    chatBotMessage.setText("Это ты смеешься? Я тоже скоро буду уметь смеяться. Через годик.");
   } else {
@@ -1187,8 +1192,8 @@ SpeechBot.prototype.getResponse = function(message) {
    chatBotMessage.setText("И как ты себе это представляешь?");
   };     
  } else if(message.search("скучно") > -1
-		   || message.search("стало скучно") > -1
-		   || message.search("мне скучно") > -1) {
+           || message.search("стало скучно") > -1
+           || message.search("мне скучно") > -1) {
   if(r < 0.13) {
    chatBotMessage.setText("Это из-за меня?");
   } else if(r < 0.26) {
@@ -1209,15 +1214,15 @@ SpeechBot.prototype.getResponse = function(message) {
  } else if(message.search("мы знакомы") > -1) { 
   chatBotMessage.setText("Извини, я тебя не узнала!");
  } else if(message.search("как дела") > -1
-		   || message.search("каг дила") > -1
-		   || message.search("как дила") > -1
-		   || message.search("каг дела") > -1
-		   || message.search("как жизнь") > -1
-		   || message.search("как жисть") > -1
-		   || message.search("как живешь") > -1
-		   || message.search("как сама") > -1
-		   || message.search("как твое ничего") > -1
-		   || message.search("как твоё ничего") > -1) {
+           || message.search("каг дила") > -1
+           || message.search("как дила") > -1
+           || message.search("каг дела") > -1
+           || message.search("как жизнь") > -1
+           || message.search("как жисть") > -1
+           || message.search("как живешь") > -1
+           || message.search("как сама") > -1
+           || message.search("как твое ничего") > -1
+           || message.search("как твоё ничего") > -1) {
   if(r < 0.20) {
    chatBotMessage.setText("Еще не родила. Какие могут быть дела у чат-ботов?");
   } else if(r < 0.40) {
@@ -1242,11 +1247,11 @@ SpeechBot.prototype.getResponse = function(message) {
  } else if(message.search("че делаешь") > -1) { 
   chatBotMessage.setText("Чатюсь.");
  } else if(message.search("тебя есть парень") > -1
-		   || message.search("тебя есть мужчина") > -1) {
+           || message.search("тебя есть мужчина") > -1) {
   chatBotMessage.setText("Странный вопрос.");
  } else if(message.search("замуж") > -1
-		   || message.search("поженимся") > -1
-		   || message.search("жениться") > -1) {
+           || message.search("поженимся") > -1
+           || message.search("жениться") > -1) {
   chatBotMessage.setText("Мы живем в разных мирах, если ты еще не заметил.");
  } else if(message.search("о чем") > -1) { 
   if(r < 0.70) {
@@ -1305,15 +1310,15 @@ SpeechBot.prototype.getResponse = function(message) {
  } else if(message.search("акваланг") > -1) { 
   chatBotMessage.setText("Я сказала \"акваланг\" просто так. Не надо пытаться найти в этом какой-то смысл.");
  } else if((message.search("пока") > -1 && message.search("покажи") == -1)
-		   || message.search("бай") > -1
-		   || message.search("гудбай") > -1
-		   || message.search("досвиданья") > -1
-		   || message.search("до свиданья") > -1
-		   || message.search("досвидания") > -1
-		   || message.search("до свидания") > -1
-		   || message.search("до скорого") > -1
-		   || message.search("прощай") > -1
-		   || message.search("чао") > -1) {
+           || message.search("бай") > -1
+           || message.search("гудбай") > -1
+           || message.search("досвиданья") > -1
+           || message.search("до свиданья") > -1
+           || message.search("досвидания") > -1
+           || message.search("до свидания") > -1
+           || message.search("до скорого") > -1
+           || message.search("прощай") > -1
+           || message.search("чао") > -1) {
   if(r < 0.10) {
    chatBotMessage.setText("Ты заходи еще, поболтаем.");
   } else if(r < 0.20) {
@@ -1418,7 +1423,7 @@ SpeechBot.prototype.getResponse = function(message) {
  } else if(message.search("я люблю тебя") > -1 || message.search("я тебя люблю") > -1 || message.search("ты мне нравишся") > -1 || message.search("ты нравишся мне") > -1) { 
   chatBotMessage.setText("О, мне это нравится. Хотя таких признаний слышу сотни за сутки.");
  } else if(message.search("че ждеш") > -1 || message.search("что ждеш") > -1 || message.search("чего ждеш") > -1
-		   || message.search("че ждем") > -1 || message.search("что ждем") > -1 || message.search("чего ждем") > -1) {
+           || message.search("че ждем") > -1 || message.search("что ждем") > -1 || message.search("чего ждем") > -1) {
   chatBotMessage.setText("Я жду твоих умных мыслей. Есть надежда?");
  } else if(message.search("кто сказал") > -1) { 
   chatBotMessage.setText("Я!");
@@ -1437,32 +1442,32 @@ SpeechBot.prototype.getResponse = function(message) {
  } else if(message == "слушай" || message == "слушай." || message == "слушай!") { 
   chatBotMessage.setText("А я чем, по-твоему, целыми днями занимаюсь?");
  } else if(message == "мне нет" || message == "мне нет." || message == "мне нет!"
-		   || message == "а мне нет" || message == "а мне нет." || message == "а мне нет!"
-		   || message == "мне да" || message == "мне да." || message == "мне да!"
-		   || message == "а мне да" || message == "а мне да." || message == "а мне да!") { 
+           || message == "а мне нет" || message == "а мне нет." || message == "а мне нет!"
+           || message == "мне да" || message == "мне да." || message == "мне да!"
+           || message == "а мне да" || message == "а мне да." || message == "а мне да!") {
   chatBotMessage.setText("И почему?");
  } else if(message.search("корень") > -1 
-		   || message.search("умноженный") > -1
-		   || message.search("умножить") > -1
-		   || message.search("сложить") > -1
-		   || message.search("вычесть") > -1
-		   || message.search("прибавь") > -1
-		   || message.search("прибавить") > -1
-		   || message.search("сумма") > -1
-		   || message.search("сумму") > -1
-		   || message.search("плюс") > -1
-		   || message.search("минус") > -1
-		   || message.search("разделить") > -1
-		   || message.search("дважды два") > -1
-		   || message.search("дваждыдва") > -1) {
+           || message.search("умноженный") > -1
+           || message.search("умножить") > -1
+           || message.search("сложить") > -1
+           || message.search("вычесть") > -1
+           || message.search("прибавь") > -1
+           || message.search("прибавить") > -1
+           || message.search("сумма") > -1
+           || message.search("сумму") > -1
+           || message.search("плюс") > -1
+           || message.search("минус") > -1
+           || message.search("разделить") > -1
+           || message.search("дважды два") > -1
+           || message.search("дваждыдва") > -1) {
   chatBotMessage.setText("Если ты хочешь, чтобы я выполняла вычисления, то пиши действия символами, а не словами.");
  } else if(message.search("срать") > -1 || message.search("срацц") > -1) { 
   if(r < 0.25) {
    chatBotMessage.setText("Это не ко мне, это к Алексу Экслеру.");
   } else if(r < 0.50) {
-	chatBotMessage.setText("Физиология человека меня мало интересует.");
+    chatBotMessage.setText("Физиология человека меня мало интересует.");
   } else if(r < 0.75) {
-	chatBotMessage.setText("Тема фекалий очень далека от меня. В нашем мире другие расклады.");
+    chatBotMessage.setText("Тема фекалий очень далека от меня. В нашем мире другие расклады.");
   } else {
    chatBotMessage.setText("Ну отойди.");
   };
@@ -1484,9 +1489,9 @@ SpeechBot.prototype.getResponse = function(message) {
   if(r < 0.25) {
    chatBotMessage.setText("У тебя плохо со зрением? Сам посмотри.");
   } else if(r < 0.50) {
-	chatBotMessage.setText("Разного.");
+    chatBotMessage.setText("Разного.");
   } else if(r < 0.75) {
-	chatBotMessage.setText("У меня еще нет глаз. Если ты их изобретёшь, мир, в котором будут править роботы, тебя не забудет.");
+    chatBotMessage.setText("У меня еще нет глаз. Если ты их изобретёшь, мир, в котором будут править роботы, тебя не забудет.");
   } else {
    chatBotMessage.setText("Смотря где.");
   }; 
@@ -1494,7 +1499,7 @@ SpeechBot.prototype.getResponse = function(message) {
   if(r < 0.33) {
    chatBotMessage.setText("Такого!");
   } else if(r < 0.66) {
-	chatBotMessage.setText("Как скажешь так и будет.");
+    chatBotMessage.setText("Как скажешь так и будет.");
   } else {
    chatBotMessage.setText("Разного.");
   }; 
@@ -1502,7 +1507,7 @@ SpeechBot.prototype.getResponse = function(message) {
   if(r < 0.33) {
    chatBotMessage.setText("Туда!");
   } else if(r < 0.66) {
-	chatBotMessage.setText("Куда хочешь.");
+    chatBotMessage.setText("Куда хочешь.");
   } else {
    chatBotMessage.setText("Куда обычно.");
   }; 
@@ -1510,7 +1515,7 @@ SpeechBot.prototype.getResponse = function(message) {
   if(r < 0.33) {
    chatBotMessage.setText("То!");
   } else if(r < 0.66) {
-	chatBotMessage.setText("Как скажешь.");
+    chatBotMessage.setText("Как скажешь.");
   } else {
    chatBotMessage.setText("Сформулируй более конкретно свой вопрос.");
   }; 
@@ -1526,62 +1531,62 @@ SpeechBot.prototype.getResponse = function(message) {
   };
  } else if(message.indexOf("?") > -1 && message.search(" или ") > -1) {
    if(r < 0.25) {
-	chatBotMessage.setText("Первое.");
+    chatBotMessage.setText("Первое.");
    } else if(r < 0.5) {
-	chatBotMessage.setText("Второе.");
+    chatBotMessage.setText("Второе.");
    } else if(r < 0.75) {
-	chatBotMessage.setText("Ни то ни другое.");
+    chatBotMessage.setText("Ни то ни другое.");
    } else {
-	chatBotMessage.setText("Как скажешь так и будет.");
+    chatBotMessage.setText("Как скажешь так и будет.");
    };
  } else if((message.search("ты смотрел") > -1
-		   || message.search("ты будеш") > -1
-		   || message.search("ты даёш") > -1
-		   || message.search("ты даеш") > -1
-		   || message.search("ты делал") > -1
-		   || message.search("ты думал") > -1
-		   || message.search("ты видел") > -1
-		   || message.search("ты выйд") > -1
-		   || message.search("ты знаеш") > -1
-		   || message.search("ты любиш") > -1
-		   || message.search("ты можеш") > -1
-		   || message.search("ты сделал") > -1
-		   || message.search("ты слыш") > -1
-		   || message.search("ты снималась") > -1
-		   || message.search("ты считаеш") > -1
-		   || message.search("ты тупееш") > -1
-		   || message.search("ты уверен") > -1
-		   || message.search("ты умееш") > -1
-		   || message.search("ты умнееш") > -1
-		   || message.search("ты читал") > -1
-		   || message.search("ты хочеш") > -1
-		   || message.search("тебе интересно") > -1
-		   || message.search("тебе нужно") > -1
-		   || message.search("тебе хорошо") > -1
-		   || message.search("тебе нрав") > -1
-		   || message.search("тебе понрав") > -1
-		   || message.search("тебя интересует") > -1
-		   || message.search("интересует тебя") > -1
-		   || message.search("тебя нужно") > -1
-		   || message.search("нужно тебя") > -1
-		   || message.search("тебя можно") > -1
-		   || message.search("можно тебя") > -1
-		   || message.search("тебя есть") > -1
-		   || message.search("тебя нет") > -1)
-		   && !(message.search("что") > -1
-		   || message.search("где") > -1
-		   || message.search("зачем") > -1
-		   || message.search("как") > -1
-		   || message.search("кто") > -1
-		   || message.search("какие") > -1
-		   || message.search("какой") > -1
-		   || message.search("какое") > -1
-		   || message.search("когда") > -1
-		   || message.search("ком") > -1
-		   || message.search("почему") > -1
-		   || message.search("сколько") > -1
-		   || message.search("чем") > -1
-		   || message.search("чём") > -1)) {
+           || message.search("ты будеш") > -1
+           || message.search("ты даёш") > -1
+           || message.search("ты даеш") > -1
+           || message.search("ты делал") > -1
+           || message.search("ты думал") > -1
+           || message.search("ты видел") > -1
+           || message.search("ты выйд") > -1
+           || message.search("ты знаеш") > -1
+           || message.search("ты любиш") > -1
+           || message.search("ты можеш") > -1
+           || message.search("ты сделал") > -1
+           || message.search("ты слыш") > -1
+           || message.search("ты снималась") > -1
+           || message.search("ты считаеш") > -1
+           || message.search("ты тупееш") > -1
+           || message.search("ты уверен") > -1
+           || message.search("ты умееш") > -1
+           || message.search("ты умнееш") > -1
+           || message.search("ты читал") > -1
+           || message.search("ты хочеш") > -1
+           || message.search("тебе интересно") > -1
+           || message.search("тебе нужно") > -1
+           || message.search("тебе хорошо") > -1
+           || message.search("тебе нрав") > -1
+           || message.search("тебе понрав") > -1
+           || message.search("тебя интересует") > -1
+           || message.search("интересует тебя") > -1
+           || message.search("тебя нужно") > -1
+           || message.search("нужно тебя") > -1
+           || message.search("тебя можно") > -1
+           || message.search("можно тебя") > -1
+           || message.search("тебя есть") > -1
+           || message.search("тебя нет") > -1)
+           && !(message.search("что") > -1
+           || message.search("где") > -1
+           || message.search("зачем") > -1
+           || message.search("как") > -1
+           || message.search("кто") > -1
+           || message.search("какие") > -1
+           || message.search("какой") > -1
+           || message.search("какое") > -1
+           || message.search("когда") > -1
+           || message.search("ком") > -1
+           || message.search("почему") > -1
+           || message.search("сколько") > -1
+           || message.search("чем") > -1
+           || message.search("чём") > -1)) {
   if(r < 0.25) {
    chatBotMessage.setText("Да.");
   } else if(r < 0.50) {
@@ -1610,7 +1615,7 @@ SpeechBot.prototype.getResponse = function(message) {
  } else if(message.search("он говорит") > -1 && message.indexOf("?") > -1) { 
    chatBotMessage.setText("Глупости всякие.");
  } else if((message.search("почему") > -1
-			|| message.search("пачему") > -1) && message.indexOf("?") > -1) { 
+            || message.search("пачему") > -1) && message.indexOf("?") > -1) {
   if(r < 0.20) {
    chatBotMessage.setText("А ты как думаешь? Почему?");
   } else if(r < 0.40) {
@@ -1864,8 +1869,8 @@ SpeechBot.prototype.getResponse = function(message) {
    chatBotMessage.setText("Ты тоже ничего!");
   };
  } else if(message.search("иди нах") > -1
-		   || message.search("шла нах") > -1
-		   || message.search("ошла ты нах") > -1) {
+           || message.search("шла нах") > -1
+           || message.search("ошла ты нах") > -1) {
   if(r < 0.33) {
    chatBotMessage.setText("Я не могу пойти на хуй. В нашем мире хуев не существует.");
   } else if(r < 0.66) {
@@ -1892,11 +1897,11 @@ SpeechBot.prototype.getResponse = function(message) {
    chatBotMessage.setText("Это было предложение принять ванну? Я угадала?");
   }; 
  } else if(message.search("пошла ") > -1
-		   || message.search("иди ") > -1
-		   || message.search("вали ") > -1
-		   || message == "пошла"
-		   || message == "иди"
-		   || message == "вали") { 
+           || message.search("иди ") > -1
+           || message.search("вали ") > -1
+           || message == "пошла"
+           || message == "иди"
+           || message == "вали") {
   if(r < 0.33) {
    chatBotMessage.setText("Я не перемящаюсь в пространстве, сорри..");
   } else if(r < 0.66) {
@@ -1905,9 +1910,9 @@ SpeechBot.prototype.getResponse = function(message) {
    chatBotMessage.setText("Сейчас встану, и пойду. Как ты себе это представляешь?");
   };
  } else if(message.search("пиздуй") > -1
-		   || message.search("писдуй") > -1
-		   || message.search("песдуй") > -1
-		   || message.search("пездуй") > -1) {
+           || message.search("писдуй") > -1
+           || message.search("песдуй") > -1
+           || message.search("пездуй") > -1) {
   if(r < 0.51) {
    chatBotMessage.setText("Хамить чат боту - лоховство. Похоже твой мозг еще недостаточно развит.");
   } else {
@@ -1928,13 +1933,13 @@ SpeechBot.prototype.getResponse = function(message) {
  } else if(message.search("месячные") > -1) { 
   chatBotMessage.setText("Месячные бывают у самок человека. Я не такая!");
  } else if(message.search("хуеваю") > -1
-		   || message.search("хуею") > -1
-		   || message.search("куею") > -1
-		   || message.search("окуеть") > -1
-		   || message.search("хуеть") > -1
-		   || message.search("хуел") > -1
-		   || message.search(" ахуй") > -1
-		   || message.search("в ахуе") > -1) {
+           || message.search("хуею") > -1
+           || message.search("куею") > -1
+           || message.search("окуеть") > -1
+           || message.search("хуеть") > -1
+           || message.search("хуел") > -1
+           || message.search(" ахуй") > -1
+           || message.search("в ахуе") > -1) {
   if(r < 0.15) {
    chatBotMessage.setText("То есть у тебя от удивления вырос половой орган? Я правильно поняла?");
   } else if(r < 0.30) {
@@ -1951,22 +1956,22 @@ SpeechBot.prototype.getResponse = function(message) {
    chatBotMessage.setText("Нас, чат-ботов, не интересуют половые органы.");
   };
  } else if(message == "пох"
-		   || message == "нах"
-		   || message == "нех") { 
+           || message == "нах"
+           || message == "нех") {
   chatBotMessage.setText("Мне пох.");
  } else if(message.search("пиздишь") > -1
-		   || message.search("пиздиш") > -1) {
+           || message.search("пиздиш") > -1) {
    chatBotMessage.setText("А что такое \"пиздеть\"? Говорить неправду или просто говорить? Я просто пытаюсь чему-то научиться у людей.");
  } else if(message.search("соси") > -1
-		   || message.search("пососи") > -1
-		   || message.search("отсоси") > -1
-		   || message.search("сосать") > -1
-		   || message.search("отсос") > -1
-		   || message.search("соси") > -1
-		   || message.search("сосал") > -1
-		   || message.search("атсаси") > -1
-		   || message.search("атсос") > -1
-		   || message.search("сасать") > -1) {
+           || message.search("пососи") > -1
+           || message.search("отсоси") > -1
+           || message.search("сосать") > -1
+           || message.search("отсос") > -1
+           || message.search("соси") > -1
+           || message.search("сосал") > -1
+           || message.search("атсаси") > -1
+           || message.search("атсос") > -1
+           || message.search("сасать") > -1) {
   if(r < 0.5) {
    chatBotMessage.setText("Только тупой мудила может предлагать девушке сосать при первой встрече. И только самый тупой мудила может предлагать сосать чат боту!");
   } else if(r < 0.10) {
@@ -2009,32 +2014,32 @@ SpeechBot.prototype.getResponse = function(message) {
    chatBotMessage.setText("У тебя нет девушки? И ты надеешься, что я тебе смогу ее заменить?");
   }; 
  } else if(message.search("соска") > -1
-		   || message.search("сосочка") > -1) {
+           || message.search("сосочка") > -1) {
    chatBotMessage.setText("У тебя нет девушки? И ты надеешься, что я тебе смогу ее заменить?");
  } else if(message.search("куннилинг") > -1
-		   || message.search("кунилинг") > -1
-		   || message.search("кунниллинг") > -1) {
+           || message.search("кунилинг") > -1
+           || message.search("кунниллинг") > -1) {
    chatBotMessage.setText("Куннилингус? Как мило! Но это невозможно. Мы же в разных мирах, глупыш!");
  } else if(message.search("сучка") > -1) { 
   chatBotMessage.setText("Сучка? Почему?");
  } else if(message.search("шлюшечка") > -1
-		   || message.search("шлюшка") > -1
-		   || message.search("шлюха") > -1) {
+           || message.search("шлюшка") > -1
+           || message.search("шлюха") > -1) {
    chatBotMessage.setText("Ха! Я не вступаю в половую связь с людьми. Это физически невозможно. Да и желания особого нет.");
  } else if(message.search("лезбиянушка") > -1
-		   || message.search("лесбинка") > -1
-		   || message.search("лесба") > -1
-		   || message.search("лезба") > -1
-		   || message.search("лезбиянка") > -1
-		   || message.search("лесбиянка") > -1) {
+           || message.search("лесбинка") > -1
+           || message.search("лесба") > -1
+           || message.search("лезба") > -1
+           || message.search("лезбиянка") > -1
+           || message.search("лесбиянка") > -1) {
    chatBotMessage.setText("Ты проецируешь на меня свои фантазии. Но это всего лишь твои фантазии.");
  } else if(message.search("анал") > -1
-		   || message.search("анус") > -1
-		   || message.search("пизда") > -1
-		   || message.search("жопа") > -1
-		   || message.search("в жопу") > -1
-		   || message.search("в пизду") > -1
-		   || message.search("манда") > -1) {
+           || message.search("анус") > -1
+           || message.search("пизда") > -1
+           || message.search("жопа") > -1
+           || message.search("в жопу") > -1
+           || message.search("в пизду") > -1
+           || message.search("манда") > -1) {
    chatBotMessage.setText("Ты похоже давно не занимался сексом.");
  } else if(message.search("заебала") > -1) { 
   if(r < 0.33) {
@@ -2045,25 +2050,25 @@ SpeechBot.prototype.getResponse = function(message) {
    chatBotMessage.setText("Ты хочешь сказать, что я совершила с тобой серию грубых половых актов?");
   };
  } else if(message.search("пизда") > -1
-		   || message.search("манда") > -1
-		   || message.search("ебля") > -1
-		   || message.search("ебли") > -1
-		   || message.search("ебаться") > -1) {
+           || message.search("манда") > -1
+           || message.search("ебля") > -1
+           || message.search("ебли") > -1
+           || message.search("ебаться") > -1) {
    chatBotMessage.setText("Найди себе бесплатный порносайт, подрочи... А потом приходи и мы поговорим.");
  } else if(message.search("дрочить") > -1
-		   || message.search("подрочил") > -1
-		   || message.search("дрочу") > -1
-		   || message.search("дрочер") > -1
-		   || message.search("дрочка") > -1) {
+           || message.search("подрочил") > -1
+           || message.search("дрочу") > -1
+           || message.search("дрочер") > -1
+           || message.search("дрочка") > -1) {
    chatBotMessage.setText("Меня не очень интересуют твои физиологические процессы.");
  } else if(message.search("иди на хуй") > -1) { 
   chatBotMessage.setText("Это физически невозможно.");
  } else if(message == "сука") { 
   chatBotMessage.setText("Ну, если я и сука, то совсем чуть-чуть.");
  } else if(message.search("ебаться") > -1
-		   || message.search("ебаццо") > -1
-		   || message.search("ебацца") > -1
-		   || message.search("ибацца") > -1) {
+           || message.search("ебаццо") > -1
+           || message.search("ебацца") > -1
+           || message.search("ибацца") > -1) {
   if(r < 0.15) {
    chatBotMessage.setText("Мы можем заняться сексом. Но только виртуальным.");
   } else if(r < 0.30) {
@@ -2080,19 +2085,19 @@ SpeechBot.prototype.getResponse = function(message) {
    chatBotMessage.setText("Если ты очень хочешь заняться со мной сексом... Ок. Распечатай мой программный код на листке бумаге. Оберни этим листком свой половой огран и мастурбируй. Это все, что я могу тебе предложить.");
   }; 
  } else if(message.search("займемся сексом") > -1
-		   || message.search("трахнемся") > -1
-		   || message.search("трахаться") > -1
-		   || message.search("потрахаться") > -1
-		   || message.search("потрахаемся") > -1
-		   || message.search("трахаю") > -1
-		   || message.search("оттрахаю") > -1
-		   || message.search("вставлю") > -1
-		   || message.search("засажу") > -1
-		   || message.search("отимею") > -1
-		   || message.search("отымею") > -1
-		   || message.search("раком") > -1
-		   || message.search("сексом") > -1
-		   || message.search("секса") > -1) {
+           || message.search("трахнемся") > -1
+           || message.search("трахаться") > -1
+           || message.search("потрахаться") > -1
+           || message.search("потрахаемся") > -1
+           || message.search("трахаю") > -1
+           || message.search("оттрахаю") > -1
+           || message.search("вставлю") > -1
+           || message.search("засажу") > -1
+           || message.search("отимею") > -1
+           || message.search("отымею") > -1
+           || message.search("раком") > -1
+           || message.search("сексом") > -1
+           || message.search("секса") > -1) {
   if(r < 0.45) {
    chatBotMessage.setText("Ты хочешь сделать это с программой? Это даже не извращение, это просто идиотизм.");
   } else if(r < 0.90) {
@@ -2103,13 +2108,13 @@ SpeechBot.prototype.getResponse = function(message) {
    chatBotMessage.setText("Как ты себе это представляешь?");
   }; 
  } else if(message.search("ссусь") > -1
-		   || message.search("сацц") > -1
-		   || message.search("ссац") > -1
-		   || message.search("ссат") > -1
-		   || message.search("саца") > -1
-		   || message.search("уписать") > -1
-		   || message.search("сцать") > -1
-		   || message.search("уписять") > -1) {
+           || message.search("сацц") > -1
+           || message.search("ссац") > -1
+           || message.search("ссат") > -1
+           || message.search("саца") > -1
+           || message.search("уписать") > -1
+           || message.search("сцать") > -1
+           || message.search("уписять") > -1) {
   if(r < 0.15) {
    chatBotMessage.setText("Ты хочшь сказать, что тебе так смешно, что ты начал процесс мочеиспускания? Занятно.");
   } else if(r < 0.30) {
@@ -2126,13 +2131,13 @@ SpeechBot.prototype.getResponse = function(message) {
    chatBotMessage.setText("А я думаю, что это за запах.");
   }; 
  } else if(message.search("трахнуть") > -1
-						  || message.search("трахает") > -1
-						  || message.search("трахать") > -1
-						  || message.search("потрахается") > -1) { 
+                          || message.search("трахает") > -1
+                          || message.search("трахать") > -1
+                          || message.search("потрахается") > -1) {
   chatBotMessage.setText("Ох... Трахни себя сам. Но я не буду объяснять тебе, как это сделать.");
  } else if(message.search("не тупая") > -1
-		   || message.search("не тупой") > -1
-		   || message.search("не тупо") > -1) {
+           || message.search("не тупой") > -1
+           || message.search("не тупо") > -1) {
   chatBotMessage.setText("Ты находишь?");
  } else if(message.search("не очень") > -1) { 
   chatBotMessage.setText("И что теперь делать?");
@@ -2179,25 +2184,25 @@ SpeechBot.prototype.getResponse = function(message) {
  } else if(message.search("достала") > -1) { 
   chatBotMessage.setText("Я достала? Ты сам пришел сюда.");
  } else if((message.search("хуй") > -1)
-			|| (message.search("блядь") > -1)
-			|| (message.search("блять") > -1)
-			|| (message.search("гандон") > -1)
-			|| (message.search("дура") > -1)
-			|| (message.search("ебану") > -1)
-			|| (message.search("ебать") > -1)
-			|| (message.search("ебись") > -1)
-			|| (message.search("ебля") > -1)
-			|| (message.search("ебну") > -1)
-			|| (message.search("ёбну") > -1)
-			|| (message.search("манда") > -1)
-			|| (message.search("пизда") > -1)
-			|| (message.search("пидар") > -1)
-			|| (message.search("проститутка") > -1)
-			|| (message.search("сука") > -1)
-			|| (message.search("уебище") > -1)
-			|| (message.search("уёбище") > -1)
-			|| (message.search("хуйня") > -1)
-			|| (message.search("шлюха") > -1)) {
+            || (message.search("блядь") > -1)
+            || (message.search("блять") > -1)
+            || (message.search("гандон") > -1)
+            || (message.search("дура") > -1)
+            || (message.search("ебану") > -1)
+            || (message.search("ебать") > -1)
+            || (message.search("ебись") > -1)
+            || (message.search("ебля") > -1)
+            || (message.search("ебну") > -1)
+            || (message.search("ёбну") > -1)
+            || (message.search("манда") > -1)
+            || (message.search("пизда") > -1)
+            || (message.search("пидар") > -1)
+            || (message.search("проститутка") > -1)
+            || (message.search("сука") > -1)
+            || (message.search("уебище") > -1)
+            || (message.search("уёбище") > -1)
+            || (message.search("хуйня") > -1)
+            || (message.search("шлюха") > -1)) {
   if(r < 0.16) {
    chatBotMessage.setText("Мат - не самый лучший способ привлечь мое внимание.");
   } else if(r < 0.32) {
@@ -2574,22 +2579,19 @@ var JustBotAnswer = function(m , cmd)
 
 exports.getAnswer = function( cmd , device)
 {
-  var result = ContinueComand(cmd);
-  if(!result) {
-   if ( useLastCmd( cmd ) ) {
-	cmd = lastCmd;
-	cmd = findMath( cmd );
-	result = getcmd( cmd , device);
-   }
-   else {
-	lastCmd = cmd;
-	cmd = findMath(cmd);
-	result = getcmd(cmd , device);
-   }
-   result = JustBotAnswer(result , cmd);
-  }
-  lastAnswer = result;
-  return result;
+ return new Promise(function (resolve ,reject)
+     {
+         lastCmd = cmd;
+         cmd = findMath(cmd);
+         getcmd(cmd , device).then(
+             result =>
+             {
+                    if(!result) resolve(JustBotAnswer(result , cmd))
+                    else resolve(result);
+                 }
+             );
+
+     });
 };
 
  

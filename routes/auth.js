@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var api = require('../api.js');
+var api = require('../api/authApi.js');
 //var AsyncRouter = require("express-async-router").AsyncRouter;
 //var router = AsyncRouter();
 /* Создание пользователя */

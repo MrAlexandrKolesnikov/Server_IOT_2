@@ -4,7 +4,7 @@ var express = require('express');
 //var router = AsyncRouter();
 var expressPromiseRouter = require("express-promise-router");
 var router = expressPromiseRouter();
-var api = require('../api');
+var api = require('../api/authApi');
 /* GET home page. */
 router.get('/', function(req, res, next) {
     if(req.session.user){

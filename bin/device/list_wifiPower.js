@@ -4,62 +4,45 @@
 
 wifiPower = require("./wifiPower.js").wifiPower;
 
-var list_wifiPower = {};
+var list_wifiPower = [];
 
-exports.add = function ( socket )
+exports.add = function ( id , socket )
 {
-    var userId = Object.keys(list_wifiPower).length;
-    if (!list_wifiPower[userId]) {
-        list_wifiPower[userId] = new wifiPower(socket,userId+1);
-    }
-    else
-    {
-        console.log("Error");
-        console.log(userId);
-    }
+    console.log(id);
+    var device = new wifiPower(socket,id);
+    list_wifiPower[id]=device;
 };
 
 exports.remove = function (socket)
 {
-    for(var index in list_wifiPower)
-    {
-       if(list_wifiPower[index].getSocket() == undefined)
-       {
-           delete list_wifiPower[list_wifiPower[index].getId()];
-       }
-    }
-};
-
-exports.setStatus = function(id , status) {
-
-    for(var index in list_wifiPower)
-    {
-        if(list_wifiPower[index].getId() == id)
+    for (var key in list_wifiPower) {
+        var soketDev = list_wifiPower[key].getSocket();
+        if(soketDev.id == socket.id)
         {
-            list_wifiPower[index].setStatus(status);
+            delete list_wifiPower[key];
             break;
         }
     }
 };
 
+exports.setStatus = function(id , status)
+{
+    list_wifiPower[id].setStatus(status);
+};
+
 exports.getStatus = function( id )
 {
     console.log("Get status device #" +id);
-    for(var index in list_wifiPower)
-    {
-        if(list_wifiPower[index].getId() == id)
-        {
-            return list_wifiPower[index].getStatus();
-        }
-    }
+    return list_wifiPower[id].getStatus();
 };
 
 exports.getIdList = function()
 {
-    var idList = [];
-    for(var index in list_wifiPower)
-    {
-        idList.push(list_wifiPower[index].getId());
+    var idList = []
+    for (var key in list_wifiPower) {
+        if (list_wifiPower.hasOwnProperty(key)) {
+            idList.push(key);
+        }
     }
     return idList;
 }

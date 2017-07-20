@@ -1,0 +1,21 @@
+//
+   Created by sasha on 09/07/2017.
+doctype html
+html(lang='en')
+    head
+        meta(charset='UTF-8')
+        title Title
+        script(src="/socket.io/socket.io.js")
+        script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js')
+        script(src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js')
+        link(rel='stylesheet', href='/stylesheets/panel/bootstrap.css')
+        link(href='stylesheets/simulation/wifi_power.css', rel='stylesheet')
+        script.
+             var IdDevice = !{JSON.stringify(id)};
+        script(type='text/javascript', src="/javascripts/simulation/wifi_power.js")
+
+    body
+        .inner.cover
+            h1.cover-heading Страница эмулирование wifi розетки
+            button.btn.btn-outline-danger(onclick='connect()')  Connect
+            p.lead="Id устройства:" + id

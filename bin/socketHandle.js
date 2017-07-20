@@ -2,6 +2,31 @@
  * Created by sasha on 26/06/2017.
  */
 var bot = require("./bot/bot.js").getAnswer;
+var list_wifiPower = require("./device/list_wifiPower.js")
+var Promise = require('bluebird');
+
+var indificate = function (text,socket) {
+    var text = text.split( "&" );
+    var id = "";
+    var identifier = "";
+    text.forEach( function ( item )
+    {
+        if( item.indexOf( "id:" ) != -1 )
+        {
+            id = item.substring( 3 );
+        }
+        if( item.indexOf( "identifier:" ) != -1 )
+        {
+            identifier = item.substring( 11 );
+        }
+    });
+    console.log("ID:" + id);
+    console.log("Identifier:" + identifier);
+    if(identifier == "wifi_power")
+    {
+        list_wifiPower.add(id,socket);
+    }
+}
 
 var botRequest = function (text,socket) {
     var respond = "";
@@ -32,10 +57,17 @@ var botRequest = function (text,socket) {
         }
     });
     // console.log( "User:" + user_cmd + "   device:" + device  +  "   Time:" + now);
-    console.log( "User:" + user_cmd + "   device:" + device);
-    respond = bot( user_cmd , device );
-    console.log("Bot:" + respond);
-    socket.emit('fridayRespond',respond);
+    console.log( "User:" + user_cmd + "   device:" + device + " position:" + position);
+    respond = bot( user_cmd , device ).then(
+        result =>
+        {
+            console.log("Bot:" + result);
+            socket.emit('fridayRespond',result);
+        }
+    );
+    //console.log("Bot:" + respond);
+    //socket.emit('fridayRespond',respond);
 }
 
+exports.indificate = indificate;
 exports.botRequest = botRequest;

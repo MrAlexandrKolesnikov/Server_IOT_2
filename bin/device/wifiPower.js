@@ -15,16 +15,17 @@ function wifiPower( socket , id )
 method.setStatus = function( i )
 {
     this.status = i;
-    console.log("Set devece #" + _device.getId.call(this)+" status:" + this.status);
     this._socket.emit('news', i);
 }
 
 method.getStatus = function()
 {
-    console.log("Get status " + this.status);
     return this.status;
 }
 
+method.getSocket = function () {
+    return this._socket
+}
 exports.wifiPower = wifiPower;
 
 
