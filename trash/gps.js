@@ -1,21 +1,26 @@
 /**
  * Created by sasha on 08/07/2017.
  */
-function placeMarkerAndPanTo(latLng, map) {
-    var marker = new google.maps.Marker({
-        position: latLng,
-        map: map
-    });
-}
-map.panTo(latLng);
-function initMap() {
-    var uluru = {lat: -25.363, lng: 131.044};
-    var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 4,
-        center: uluru
-    });
+function initMap() 
+{
+    if (navigator.geolocation) 
+    {
+        navigator.geolocation.getCurrentPosition(function(position) 
+        {
+        var lat = position.coords.latitude;
+        var lng = position.coords.longitude;
 
-    map.addListener('click', function(e) {
-        placeMarkerAndPanTo(e.latLng, map);
-    });
+            var uluru = {lat: lat , lng: lng};
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 4,
+                center: uluru
+            });
+            var marker = new google.maps.Marker({
+    position: uluru,
+    map: map,
+    title: 'Hello World!'
+            });
+
+        })
+    }
 }

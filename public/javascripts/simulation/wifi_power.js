@@ -6,7 +6,7 @@ function connect()
     //var socket = io.connect('https://stark-headland-63769.herokuapp.com');
     //var socket = io.connect('http://localhost:8888');
     //console.log(IdDevice)
-    var socket = io.connect('http://localhost:3000');
+    var socket = io.connect('https://tranquil-stream-82241.herokuapp.com');
     //var socket = io.connect('https://stark-headland-63769.herokuapp.com/');
     socket.emit("indificate","id:" +IdDevice + "&identifier:wifi_power");
 
