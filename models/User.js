@@ -13,7 +13,12 @@ var User = new mongoose.Schema({
     password : {
         type: String,
         required: true
+    },
+    registrationTime : {
+        type: String,
+        required: true
     }
+
 });
 
 module.exports = mongoose.model('User', User);

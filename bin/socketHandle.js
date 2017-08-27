@@ -2,8 +2,10 @@
  * Created by sasha on 26/06/2017.
  */
 var bot = require("./bot/bot.js").getAnswer;
-var list_wifiPower = require("./device/list_wifiPower.js")
+var list_wifiPower = require("./device/list_wifiPower.js");
 var Promise = require('bluebird');
+var time = require('time');
+var now = new time.Date();
 
 var indificate = function (text,socket) {
     var text = text.split( "&" );
@@ -57,7 +59,7 @@ var botRequest = function (text,socket) {
         }
     });
     // console.log( "User:" + user_cmd + "   device:" + device  +  "   Time:" + now);
-    console.log( "User:" + user_cmd + "   device:" + device + " position:" + position);
+    console.log( "User:" + user_cmd + "   device:" + device + " position:" + position + "time:" + now);
     respond = bot( user_cmd , device ).then(
         result =>
         {

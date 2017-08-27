@@ -4,6 +4,7 @@
 var mongoose = require('mongoose');
 var post = new mongoose.Schema({
     _id: {type: String, required: true},
+    time:{type:String},
     data : {
         type: String,
         required: true

@@ -5,6 +5,7 @@ var mongoose = require('mongoose');
 var Gps = new mongoose.Schema({
     _id: {type: String, required: true},
     idDevice:{type:String},
+    time:{type:String},
     lat:{type:Number},
     lng:{type:Number}
 });
